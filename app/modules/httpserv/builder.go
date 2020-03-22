@@ -22,6 +22,7 @@ func (h *HttpSrv) Get(message *http.Message) {
 
 	if cache, ok := h.getCache(url); ok {
 		message.Writer.Header().Set("Location", cache)
+		message.Writer.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 		message.Writer.WriteHeader(301)
 		return
 	}
@@ -41,6 +42,8 @@ func (h *HttpSrv) Get(message *http.Message) {
 }
 func (h *HttpSrv) New(message *http.Message) {
 	query := message.Reader.URL.Query()
+
+	message.Writer.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 
 	if url, ok := query["go"]; ok {
 		message.Encode("text/html; charset=utf-8", func() ([]byte, error) {
@@ -68,6 +71,7 @@ func (h *HttpSrv) New(message *http.Message) {
 	} else {
 		message.Empty(403)
 	}
+
 }
 
 func (h *HttpSrv) setCache(key, data string) {
