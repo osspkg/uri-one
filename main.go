@@ -3,7 +3,13 @@ package main
 import (
 	"flag"
 
-	"uri-one/app"
+	"uri-one/providers/db"
+
+	"uri-one/app/modules/httpserv"
+
+	"uri-one/app/config"
+
+	"github.com/deweppro/core/pkg/app"
 )
 
 var (
@@ -13,5 +19,16 @@ var (
 func main() {
 	flag.Parse()
 
-	app.New(*cpath).Run()
+	app.New(
+		*cpath,
+		app.NewInterfaces().Add(
+			//&debug.ConfigDebug{},
+			&config.Config{},
+		),
+		app.NewInterfaces().Add(
+			//debug.New,
+			db.MustNew,
+			httpserv.MustNew,
+		),
+	).Run()
 }

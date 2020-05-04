@@ -1,10 +1,5 @@
 package config
 
-import (
-	"github.com/deweppro/core/filedecoder"
-	"github.com/sirupsen/logrus"
-)
-
 type Config struct {
 	Env       string    `yaml:"env"`
 	LogFile   string    `yaml:"log"`
@@ -23,15 +18,4 @@ type SQlite struct {
 type Http struct {
 	Port   string `yaml:"port"`
 	Prefix string `yaml:"prefix"`
-}
-
-func MustNew(path string) (c *Config) {
-	if err := filedecoder.Yaml(path, &c); err != nil {
-		logrus.Fatal(err)
-	}
-	return
-}
-
-func (c *Config) IsDebug() bool {
-	return c.Env == "dev"
 }

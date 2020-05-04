@@ -9,7 +9,7 @@ import (
 
 	"uri-one/providers/db"
 
-	"github.com/deweppro/core/servers/http"
+	"github.com/deweppro/core/pkg/provider/server/http"
 	"github.com/sirupsen/logrus"
 )
 

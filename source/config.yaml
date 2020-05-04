@@ -1,13 +1,11 @@
-
-env: prod
-log: 'debug.log'
+env: dev
+log: /dev/null
 
 http:
   port: 8888
-#  prefix: 'http://127.0.0.1:8888'
   prefix: 'https://uri.one'
 
 providers:
   db:
-    init: 'data/default.sql'
-    path: 'data/db.sqlite3'
+    init: 'source/default.sql'
+    path: 'source/db.sqlite3'

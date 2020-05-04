@@ -7,7 +7,7 @@ import (
 	"uri-one/app/config"
 	"uri-one/providers/db"
 
-	"github.com/deweppro/core/servers/http"
+	"github.com/deweppro/core/pkg/provider/server/http"
 )
 
 type HttpSrv struct {
@@ -27,16 +27,16 @@ func MustNew(cfg *config.Config, db *db.SQLite) *HttpSrv {
 	}
 }
 
-func (h *HttpSrv) Start() error {
+func (h *HttpSrv) Up() error {
 
 	h.srv.SetAddr(strings.Join([]string{"127.0.0.1", h.cfg.Http.Port}, ":"))
 
 	h.srv.Route("GET", "/new", h.New)
 	h.srv.Route("*", "", h.Get)
 
-	return h.srv.Start()
+	return h.srv.Up()
 }
 
-func (h *HttpSrv) Stop() error {
-	return h.srv.Stop()
+func (h *HttpSrv) Down() error {
+	return h.srv.Down()
 }
