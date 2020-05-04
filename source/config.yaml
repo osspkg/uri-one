@@ -1,0 +1,11 @@
+env: dev
+log: /dev/null
+
+http:
+  port: 8888
+  prefix: 'https://uri.one'
+
+providers:
+  db:
+    init: 'source/default.sql'
+    path: 'source/db.sqlite3'
