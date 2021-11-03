@@ -1,0 +1,26 @@
+package: uri-one
+source: uri-one
+version: 0.0.1
+architecture:
+  - amd64
+maintainer: DewepPro <support@dewep.pro>
+homepage: https://www.dewep.pro/products/urione
+description:
+  - Link shortening service
+section: web
+priority: optional
+control:
+  depends:
+    - systemd
+    - ca-certificates
+  build: scripts/build.sh %s
+  conffiles:
+    - /etc/uri-one/config.yaml
+  preinst: scripts/preinst.sh
+  postinst: scripts/postinst.sh
+  prerm: scripts/prerm.sh
+  postrm: scripts/postrm.sh
+data:
+  build/bin/uri-one_amd64: usr/bin/uri-one
+  configs/config.yaml: etc/uri-one/config.yaml
+  init/systemd/uri-one.service: etc/systemd/system/uri-one.service
