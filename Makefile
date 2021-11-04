@@ -31,5 +31,6 @@ ci:
 	bash scripts/ci.sh
 
 .PHONY: ci
-deb: build_font build_back
+#deb: build_font build_back
+deb: build_back
 	deb-builder build
