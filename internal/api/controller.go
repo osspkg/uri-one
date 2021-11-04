@@ -49,6 +49,7 @@ var skip = map[string]struct{}{
 	"":           {},
 	"index.html": {},
 	"404.html":   {},
+	"faq.html":   {},
 	"+":          {},
 }
 
