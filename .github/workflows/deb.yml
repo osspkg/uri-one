@@ -39,7 +39,7 @@ jobs:
         uses: svenstaro/upload-release-action@2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ github.workspace }}/deb/f/fdns/*.deb
+          file: ${{ github.workspace }}/deb/f/uri-one/*.deb
           tag: ${{ github.ref }}
           overwrite: true
           file_glob: true
@@ -48,7 +48,7 @@ jobs:
         uses: svenstaro/upload-release-action@2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ github.workspace }}/build/bin/fdns_*
+          file: ${{ github.workspace }}/build/bin/uri-one_*
           tag: ${{ github.ref }}
           overwrite: true
           file_glob: true
