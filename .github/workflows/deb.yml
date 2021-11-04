@@ -39,7 +39,7 @@ jobs:
         uses: svenstaro/upload-release-action@2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ github.workspace }}/deb/f/uri-one/*.deb
+          file: ${{ github.workspace }}/deb/u/uri-one/*.deb
           tag: ${{ github.ref }}
           overwrite: true
           file_glob: true
