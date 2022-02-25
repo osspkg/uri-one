@@ -3,8 +3,8 @@ source: uri-one
 version: 0.0.1
 architecture:
   - amd64
-maintainer: DewepPro <support@dewep.pro>
-homepage: https://www.dewep.pro/products/urione
+maintainer: DewepOnline <deb@dewep.online>
+homepage: https://dewep.online/uri-one.html
 description:
   - Link shortening service
 section: web
