@@ -1,8 +1,11 @@
 package: uri-one
 source: uri-one
-version: 0.0.1
+version: '1:0.0.1'
 architecture:
+  - 386
   - amd64
+  - arm
+  - arm64
 maintainer: DewepOnline <deb@dewep.online>
 homepage: https://dewep.online/uri-one.html
 description:
@@ -13,7 +16,7 @@ control:
   depends:
     - systemd
     - ca-certificates
-  build: scripts/build.sh %s
+  build: scripts/build.sh
   conffiles:
     - /etc/uri-one/config.yaml
   preinst: scripts/preinst.sh
@@ -21,6 +24,6 @@ control:
   prerm: scripts/prerm.sh
   postrm: scripts/postrm.sh
 data:
-  build/bin/uri-one_amd64: usr/bin/uri-one
-  configs/config.yaml: etc/uri-one/config.yaml
-  init/systemd/uri-one.service: etc/systemd/system/uri-one.service
+  usr/bin/uri-one: build/bin/uri-one_%arch%
+  etc/uri-one/config.yaml: configs/config.yaml
+  etc/systemd/system/uri-one.service: init/systemd/uri-one.service 

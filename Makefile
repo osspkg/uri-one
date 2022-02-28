@@ -1,16 +1,12 @@
 SHELL=/bin/bash
 
-.PHONY: run_back run_front
+.PHONY: run_back
 run_back:
 	go run -race cmd/uri-one/main.go run -config=./configs/config.dev.yaml
-run_front:
-	cd web && npm ci --no-delete --cache=/tmp && npm run start
 
 .PHONY: build_back build_font
 build_back:
-	bash scripts/build.sh back
-build_font:
-	bash scripts/build.sh front
+	bash scripts/build.sh amd64
 
 .PHONY: linter
 linter:
@@ -30,7 +26,6 @@ develop_down:
 ci:
 	bash scripts/ci.sh
 
-.PHONY: ci
-#deb: build_font build_back
+.PHONY: deb
 deb: build_back
 	deb-builder build
