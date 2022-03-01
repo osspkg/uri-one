@@ -2,9 +2,7 @@ package: uri-one
 source: uri-one
 version: '1:0.0.1'
 architecture:
-  - 386
   - amd64
-  - arm
   - arm64
 maintainer: DewepOnline <deb@dewep.online>
 homepage: https://dewep.online/uri-one.html
@@ -16,9 +14,11 @@ control:
   depends:
     - systemd
     - ca-certificates
+    - sqlite3
   build: scripts/build.sh
   conffiles:
     - /etc/uri-one/config.yaml
+    - /var/lib/urione/db.sqlite3
   preinst: scripts/preinst.sh
   postinst: scripts/postinst.sh
   prerm: scripts/prerm.sh

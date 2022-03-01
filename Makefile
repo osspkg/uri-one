@@ -27,5 +27,5 @@ ci:
 	bash scripts/ci.sh
 
 .PHONY: deb
-deb: build_back
+deb: 
 	deb-builder build
