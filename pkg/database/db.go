@@ -18,10 +18,7 @@ type Database struct {
 }
 
 func New(log logger.Logger, conf *sqlite.Config) (*Database, error) {
-	conn, err := sqlite.New(conf)
-	if err != nil {
-		return nil, err
-	}
+	conn := sqlite.New(conf)
 	pool := orm.NewDB(conn, orm.Plugins{Logger: log})
 	db := &Database{
 		conn: conn,
@@ -32,10 +29,13 @@ func New(log logger.Logger, conf *sqlite.Config) (*Database, error) {
 }
 
 func (v *Database) Up() error {
+	if err := v.conn.Reconnect(); err != nil {
+		return err
+	}
 	if err := v.pool.Ping(); err != nil {
 		return err
 	}
-	return v.pool.Call("check_tables", func(conn *sql.Conn, ctx context.Context) error {
+	return v.pool.Call("check_tables", func(ctx context.Context, conn *sql.DB) error {
 		row := conn.QueryRowContext(ctx, checkTables)
 		var count int
 		if err := row.Scan(&count); err != nil {
@@ -60,7 +60,7 @@ func (v *Database) Down() error {
 
 func (v *Database) GetUrl(id int) (string, error) {
 	var data string
-	err := v.pool.Call("get_url", func(conn *sql.Conn, ctx context.Context) error {
+	err := v.pool.Call("get_url", func(ctx context.Context, conn *sql.DB) error {
 		row := conn.QueryRowContext(ctx, getUri, id)
 		if err := row.Scan(&data); err != nil {
 			return err
@@ -78,7 +78,7 @@ func (v *Database) GetUrl(id int) (string, error) {
 
 func (v *Database) SetUrl(data string) (int, error) {
 	var id int
-	err := v.pool.Call("set_url", func(conn *sql.Conn, ctx context.Context) error {
+	err := v.pool.Call("set_url", func(ctx context.Context, conn *sql.DB) error {
 		result, err := conn.ExecContext(ctx, setUri, data, time.Now().Unix())
 		if err != nil {
 			return err

@@ -1,13 +1,13 @@
 package: uri-one
 source: uri-one
-version: '1:0.0.1'
+version: '1:0.0.2'
 architecture:
   - amd64
   - arm64
 maintainer: DewepOnline <deb@dewep.online>
 homepage: https://dewep.online/uri-one.html
 description:
-  - Link shortening service
+  - Link shortening service and badge generation
 section: web
 priority: optional
 control:
@@ -26,4 +26,4 @@ control:
 data:
   usr/bin/uri-one: build/bin/uri-one_%arch%
   etc/uri-one/config.yaml: configs/config.yaml
-  etc/systemd/system/uri-one.service: init/systemd/uri-one.service 
+  etc/systemd/system/uri-one.service: init/systemd/uri-one.service

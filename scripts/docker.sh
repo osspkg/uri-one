@@ -1,13 +1,17 @@
 #!/bin/bash
 
-cd $PWD
+#################################################
+source $(dirname "$0")/env.sh
+cd $ROOT
+dependencies
+#################################################
 
 docker_up() {
-  docker-compose -f deployments/docker-compose.yaml -p dev_uri-one up
+  docker-compose -f deployments/docker-compose.yaml -p dev_urione up
 }
 
 docker_down() {
-  docker-compose -f deployments/docker-compose.yaml -p dev_uri-one down
+  docker-compose -f deployments/docker-compose.yaml -p dev_urione down
 }
 
 case $1 in

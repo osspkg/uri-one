@@ -5,7 +5,6 @@ import (
 	"github.com/dewep-online/uri-one/pkg"
 	"github.com/deweppro/go-app/application"
 	"github.com/deweppro/go-app/console"
-	"github.com/deweppro/go-http/web/debug"
 	"github.com/deweppro/go-logger"
 )
 
@@ -27,12 +26,10 @@ func appRun() console.CommandGetter {
 				Logger(logger.Default()).
 				ConfigFile(
 					config,
-					&debug.Config{},
 					pkg.Config,
 					api.Config,
 				).
 				Modules(
-					debug.New,
 					pkg.Module,
 					api.Module,
 				).
