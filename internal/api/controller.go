@@ -2,9 +2,13 @@ package api
 
 import (
 	"net/http"
+	"regexp"
+
+	"github.com/deweppro/go-logger"
 
 	"github.com/dewep-online/uri-one/pkg/utils"
-	"github.com/deweppro/go-http/web/routes"
+	"github.com/deweppro/go-badges"
+	"github.com/deweppro/go-http/pkg/routes"
 )
 
 //Index controller
@@ -16,7 +20,7 @@ func (v *API) Index(w http.ResponseWriter, r *http.Request) {
 	default:
 	}
 
-	if err := v.cache.Write(filename, w); err != nil {
+	if err := v.cache.ResponseWrite(w, filename); err != nil {
 		v.log.Errorf("static response: %s", err.Error())
 	}
 }
@@ -68,6 +72,40 @@ func (v *API) DetectLinkMiddleware() func(c routes.CtrlFunc) routes.CtrlFunc {
 				w.WriteHeader(301)
 				return
 			}
+			c(w, r)
+		}
+	}
+}
+
+var (
+	rex = regexp.MustCompile(`^\/badge\/([a-z]+)\/([^\/]+)\/([^\/]+)\/image.svg$`)
+
+	colors = map[string]badges.Color{
+		"blue":   badges.ColorPrimary,
+		"red":    badges.ColorDanger,
+		"yellow": badges.ColorWarning,
+		"green":  badges.ColorSuccess,
+		"light":  badges.ColorLight,
+	}
+)
+
+func (v *API) BadgesMiddleware() func(c routes.CtrlFunc) routes.CtrlFunc {
+	return func(c routes.CtrlFunc) routes.CtrlFunc {
+		return func(w http.ResponseWriter, r *http.Request) {
+
+			values := rex.FindStringSubmatch(r.URL.Path)
+			if len(values) == 4 {
+				c, ok := colors[values[1]]
+				if !ok {
+					c = badges.ColorLight
+				}
+				err := v.badges.WriteResponse(w, c, values[2], values[3])
+				if err != nil {
+					logger.WithFields(logger.Fields{"err": err}).Errorf("Badges generate")
+				}
+				return
+			}
+
 			c(w, r)
 		}
 	}
