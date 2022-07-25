@@ -7,7 +7,7 @@ require (
 	github.com/deweppro/go-badges v1.0.1
 	github.com/deweppro/go-http v1.4.3
 	github.com/deweppro/go-logger v1.3.0
-	github.com/deweppro/go-orm v1.0.6
+	github.com/deweppro/go-orm v1.1.0
 	github.com/deweppro/go-static v1.1.1
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.7.2
