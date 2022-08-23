@@ -3,7 +3,7 @@ module github.com/dewep-online/uri-one
 go 1.17
 
 require (
-	github.com/deweppro/go-app v1.5.3
+	github.com/deweppro/go-app v1.6.0
 	github.com/deweppro/go-badges v1.0.1
 	github.com/deweppro/go-http v1.4.3
 	github.com/deweppro/go-logger v1.3.0
