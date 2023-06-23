@@ -1,13 +1,12 @@
 #!/bin/bash
 
-if test -f "/etc/systemd/system/uri-one.service"; then
-    systemctl stop uri-one
-    systemctl disable uri-one
 
-    systemctl daemon-reload
-    systemctl reset-failed
+if ! [ -d /var/lib/uri-one/ ]; then
+    mkdir /var/lib/uri-one
 fi
 
-if ! [ -d /var/lib/urione/ ]; then
-    mkdir /var/lib/urione
+if [ -f "/etc/systemd/system/uri-one.service" ]; then
+    systemctl stop uri-one
+    systemctl disable uri-one
+    systemctl daemon-reload
 fi
