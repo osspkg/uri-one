@@ -6,22 +6,10 @@
 *.out
 *.lock
 *.log
+*.dev.yaml
 
-.DS_Store
-.glide
+# vendor/
 .idea
 .vscode
-.tools
-vendor
-*.test
-
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-# Dependency directories (remove the comment below to include it)
-# vendor/
-/.idea
-/build/bin/*
-
-*.log
-*.sqlite3
+.tools/
+build/

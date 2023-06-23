@@ -1,39 +1,30 @@
+/*
+ *  Copyright (c) 2020-2023 Mikhail Knyazhev <markus621@yandex.ru>. All rights reserved.
+ *  Use of this source code is governed by a GPL-3.0 license that can be found in the LICENSE file.
+ */
+
 package main
 
 import (
-	"github.com/dewep-online/uri-one/internal/api"
-	"github.com/dewep-online/uri-one/pkg"
-	"github.com/deweppro/go-app/application"
-	"github.com/deweppro/go-app/console"
-	"github.com/deweppro/go-logger"
+	"github.com/osspkg/goppy"
+	"github.com/osspkg/goppy/plugins/database"
+	"github.com/osspkg/goppy/plugins/web"
+	"github.com/osspkg/uri-one/app/badges"
+	"github.com/osspkg/uri-one/app/common"
+	"github.com/osspkg/uri-one/app/shorten"
 )
 
 func main() {
-	root := console.New("uri-one", "help uri-one")
-	root.AddCommand(appRun())
-	root.Exec()
-}
-
-func appRun() console.CommandGetter {
-	return console.NewCommand(func(setter console.CommandSetter) {
-		setter.Setup("run", "run application")
-		setter.Example("run --config=./config.yaml")
-		setter.Flag(func(f console.FlagsSetter) {
-			f.StringVar("config", "./config.yaml", "path to config file")
-		})
-		setter.ExecFunc(func(_ []string, config string) {
-			application.New().
-				Logger(logger.Default()).
-				ConfigFile(
-					config,
-					pkg.Config,
-					api.Config,
-				).
-				Modules(
-					pkg.Module,
-					api.Module,
-				).
-				Run()
-		})
-	})
+	app := goppy.New()
+	app.WithConfig("./config.yaml") // Reassigned via the `--config` argument when run via the console.
+	app.Plugins(
+		web.WithHTTP(),
+		database.WithMySQL(),
+	)
+	app.Plugins(
+		badges.Plugin,
+		shorten.Plugin,
+		common.Plugin,
+	)
+	app.Run()
 }
