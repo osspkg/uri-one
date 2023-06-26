@@ -15,8 +15,8 @@ github.com/osspkg/go-algorithms v1.2.4 h1:e33+nNZbHJA9RmVZMqQ3+uqM6u6B6s+TTtgl74
 github.com/osspkg/go-algorithms v1.2.4/go.mod h1:Zdclm/CKhDrUD34kIm9PL4VDbiey/jXAHY36nfc0r5Q=
 github.com/osspkg/go-badges v1.0.2 h1:4kdGliJg9RCd54/AE9OwgriV6IefiXXmZTUBRXc2i9E=
 github.com/osspkg/go-badges v1.0.2/go.mod h1:Wu6dJnXYy5DNOT3SNwSYVsQ6WlEIASzZj4aN9r8ob84=
-github.com/osspkg/go-sdk v1.2.7 h1:9V0FFtTu34Lu8rl7suqp1iW+I4idzFQt9KpzFQVzXWU=
-github.com/osspkg/go-sdk v1.2.7/go.mod h1:nf6mgNnNMT0tEqrBc30rSRFvAJzP4Y4TKRaqq9iZu/Y=
+github.com/osspkg/go-sdk v1.3.1 h1:enagDgm51ZKu4HP3qzvO4NHZhkvHuj1YY2o9hThAXc0=
+github.com/osspkg/go-sdk v1.3.1/go.mod h1:69hC0tZpAwBRjOxEpSJmo/c0b7KBhbG/BdmJ21t+Hv0=
 github.com/osspkg/go-static v1.3.2 h1:MST9eSG/gO6b1OjFlxoFfSLhdKRiaUA8lEUhh0KoUOg=
 github.com/osspkg/go-static v1.3.2/go.mod h1:PI0nuemvgmLuVgn3hIZMRFgQH6d1Iyn70Gs23Gl05qo=
 github.com/osspkg/goppy v0.12.7 h1:ie4X2++lPjfwDgzi+haOq//maKBSHx8iDLv03FRIIlA=
