@@ -3,7 +3,7 @@ module github.com/osspkg/uri-one
 go 1.20
 
 require (
-	github.com/osspkg/go-algorithms v1.2.4
+	github.com/osspkg/go-algorithms v1.2.6
 	github.com/osspkg/go-badges v1.0.2
 	github.com/osspkg/go-sdk v1.2.7
 	github.com/osspkg/goppy v0.12.7
