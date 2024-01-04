@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020-2023 Mikhail Knyazhev <markus621@yandex.ru>. All rights reserved.
+ *  Copyright (c) 2020-2024 Mikhail Knyazhev <markus621@yandex.ru>. All rights reserved.
  *  Use of this source code is governed by a GPL-3.0 license that can be found in the LICENSE file.
  */
 
@@ -12,13 +12,13 @@ import (
 	"fmt"
 	"net/url"
 
-	goshorten "github.com/osspkg/go-algorithms/shorten"
-	"github.com/osspkg/go-sdk/app"
-	"github.com/osspkg/go-sdk/log"
-	"github.com/osspkg/go-sdk/orm"
-	"github.com/osspkg/goppy/plugins"
-	"github.com/osspkg/goppy/plugins/database"
-	"github.com/osspkg/goppy/plugins/web"
+	"github.com/osspkg/uri-one/app/mainapp"
+	goshorten "go.osspkg.com/algorithms/shorten"
+	"go.osspkg.com/goppy/orm"
+	"go.osspkg.com/goppy/ormmysql"
+	"go.osspkg.com/goppy/plugins"
+	"go.osspkg.com/goppy/web"
+	"go.osspkg.com/goppy/xlog"
 )
 
 var Plugin = plugins.Plugin{
@@ -27,22 +27,24 @@ var Plugin = plugins.Plugin{
 }
 
 type Shorten struct {
-	route web.Router
-	codec *goshorten.Shorten
-	db    orm.Stmt
+	route   web.Router
+	codec   *goshorten.Shorten
+	db      orm.Stmt
+	address mainapp.Address
 }
 
-func New(r web.RouterPool, c *Config, db database.MySQL) *Shorten {
+func New(r web.RouterPool, c *Config, db ormmysql.MySQL, d mainapp.Address) *Shorten {
 	return &Shorten{
-		route: r.Main(),
-		codec: goshorten.New(c.Shorten),
-		db:    db.Pool("main"),
+		route:   r.Main(),
+		codec:   goshorten.New(c.Shorten),
+		db:      db.Pool("main"),
+		address: d,
 	}
 }
 
-func (v *Shorten) Up(ctx app.Context) (err error) {
-	v.route.Get("/~{code}", v.Index)
-	v.route.Get("/+", v.Add)
+func (v *Shorten) Up() error {
+	v.route.Get("/{code}", v.Index)
+	v.route.Post("/add", v.Add)
 
 	return nil
 }
@@ -55,7 +57,7 @@ func (v *Shorten) Index(ctx web.Context) {
 	code, err := ctx.Param("code").String()
 	if err != nil {
 		ctx.String(404, page404HTML)
-		ctx.Log().WithFields(log.Fields{
+		ctx.Log().WithFields(xlog.Fields{
 			"err": err.Error(),
 			"key": "id",
 		}).Errorf("Invalid shorten key")
@@ -80,34 +82,38 @@ func (v *Shorten) Index(ctx web.Context) {
 
 //easyjson:json
 type AddModel struct {
-	URI    string `json:"uri"`
+	URL    string `json:"url"`
 	Source string `json:"source"`
 }
 
 func (v *Shorten) Add(ctx web.Context) {
-	uri := ctx.URL().Query().Get("uri")
-	if len(uri) == 0 {
-		ctx.ErrorJSON(400, fmt.Errorf("invalid `uri`: is empty"), nil)
+	result := &AddModel{}
+	if err := ctx.BindJSON(result); err != nil {
+		ctx.ErrorJSON(400, fmt.Errorf("invalid body: %s", err.Error()), nil)
 		return
 	}
-	u, err := url.Parse(uri)
+	if len(result.Source) == 0 {
+		ctx.ErrorJSON(400, fmt.Errorf("invalid `source`: is empty"), nil)
+		return
+	}
+	u, err := url.Parse(result.Source)
 	if err != nil {
-		ctx.ErrorJSON(400, fmt.Errorf("invalid `uri`: %s", err.Error()), nil)
+		ctx.ErrorJSON(400, fmt.Errorf("invalid `source`: %s", err.Error()), nil)
 		return
 	}
 	if len(u.Scheme) == 0 {
-		ctx.ErrorJSON(400, fmt.Errorf("invalid `uri`: scheme is empty"), nil)
+		ctx.ErrorJSON(400, fmt.Errorf("invalid `source`: scheme is empty"), nil)
 		return
 	}
-	if u.Hostname() == ctx.URL().Hostname() {
-		ctx.ErrorJSON(400, fmt.Errorf("invalid `uri`: unsupported hostname"), nil)
+	if u.Hostname() == string(v.address) {
+		ctx.ErrorJSON(400, fmt.Errorf("invalid `source`: unsupported hostname"), nil)
 		return
 	}
 
 	h := sha256.New()
 	//nolint:staticcheck
-	if _, err = fmt.Fprintf(h, uri); err != nil {
-		ctx.ErrorJSON(400, fmt.Errorf("invalid `uri`: hashing"), nil)
+	if _, err = fmt.Fprintf(h, result.Source); err != nil {
+		ctx.ErrorJSON(400, fmt.Errorf("invalid `source`: hashing"), nil)
 		return
 	}
 	hash := fmt.Sprintf("%x", h.Sum(nil))
@@ -115,9 +121,9 @@ func (v *Shorten) Add(ctx web.Context) {
 	var id uint64
 	err = v.db.ExecContext("insert_new_shorten", ctx.Context(), func(q orm.Executor) {
 		q.SQL("INSERT INTO `shorten` (`data`, `hash`, `lock`, `created_at`) VALUES (?, ?, 0, now());")
-		q.Params(uri, hash)
-		q.Bind(func(result orm.Result) error {
-			id = uint64(result.LastInsertId)
+		q.Params(result.Source, hash)
+		q.Bind(func(rowsAffected, lastInsertId int64) error {
+			id = uint64(lastInsertId)
 			if id == 0 {
 				return fmt.Errorf("invalid insert")
 			}
@@ -132,17 +138,12 @@ func (v *Shorten) Add(ctx web.Context) {
 			})
 		})
 		if err != nil {
-			ctx.ErrorJSON(400, fmt.Errorf("invalid `uri`: cant save"), nil)
+			ctx.ErrorJSON(400, fmt.Errorf("invalid `source`: cant save"), nil)
 			return
 		}
 	}
 
 	code := v.codec.Encode(id)
-
-	model := &AddModel{
-		URI:    fmt.Sprintf("https://%s/~%s", ctx.URL().Host, code),
-		Source: uri,
-	}
-
-	ctx.JSON(200, model)
+	result.URL = fmt.Sprintf("%s/%s", string(v.address), code)
+	ctx.JSON(200, result)
 }

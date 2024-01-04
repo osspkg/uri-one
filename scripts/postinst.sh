@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-if [ -f "/etc/systemd/system/uri-one.service" ]; then
-    systemctl start uri-one
-    systemctl enable uri-one
+if [ -f "/etc/systemd/system/urione.service" ]; then
+    systemctl start urione
+    systemctl enable urione
     systemctl daemon-reload
 fi

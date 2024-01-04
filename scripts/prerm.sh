@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-if [ -f "/etc/systemd/system/uri-one.service" ]; then
-    systemctl stop uri-one
-    systemctl disable uri-one
+if [ -f "/etc/systemd/system/urione.service" ]; then
+    systemctl stop urione
+    systemctl disable urione
     systemctl daemon-reload
 fi

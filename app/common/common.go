@@ -1,14 +1,13 @@
 /*
- *  Copyright (c) 2020-2023 Mikhail Knyazhev <markus621@yandex.ru>. All rights reserved.
+ *  Copyright (c) 2020-2024 Mikhail Knyazhev <markus621@yandex.ru>. All rights reserved.
  *  Use of this source code is governed by a GPL-3.0 license that can be found in the LICENSE file.
  */
 
 package common
 
 import (
-	"github.com/osspkg/go-sdk/app"
-	"github.com/osspkg/goppy/plugins"
-	"github.com/osspkg/goppy/plugins/web"
+	"go.osspkg.com/goppy/plugins"
+	"go.osspkg.com/goppy/web"
 )
 
 var Plugin = plugins.Plugin{
@@ -25,7 +24,7 @@ func New(r web.RouterPool) *Shorten {
 	}
 }
 
-func (v *Shorten) Up(ctx app.Context) error {
+func (v *Shorten) Up() error {
 	v.route.NotFoundHandler(v.Page404)
 	return nil
 }

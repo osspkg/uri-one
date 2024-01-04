@@ -362,7 +362,6 @@ linters:
     - unused
     - prealloc
     - durationcheck
-    - nolintlint
     - staticcheck
     - makezero
     - nilerr
