@@ -1,13 +1,12 @@
-version: '3'
+version: '2.4'
 
 networks:
-  default:
-    name: urione-dev-net
+  urione-net:
+    driver: bridge
 
 services:
   db:
-    image: mysql:8.0.33-debian
-    container_name: urione-db
+    image: mysql:5.7
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: '0000'
@@ -16,6 +15,8 @@ services:
       MYSQL_DATABASE: 'test_database'
     ports:
       - "127.0.0.1:3306:3306"
+    networks:
+      - urione-net
     healthcheck:
       test: [ "CMD", "mysql", "--user=root", "--password=0000", "-e", "SHOW DATABASES;" ]
       interval: 15s
@@ -24,9 +25,10 @@ services:
 
   adminer:
     image: adminer:latest
-    container_name: urione-adminer
     restart: always
     depends_on:
       - db
     ports:
       - "127.0.0.1:8090:8080"
+    networks:
+      - urione-net

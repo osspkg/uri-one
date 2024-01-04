@@ -7,7 +7,7 @@ Group=root
 Restart=on-failure
 RestartSec=30s
 Type=simple
-ExecStart=/usr/bin/uri-one --config=/etc/uri-one/config.yaml
+ExecStart=/usr/bin/urione --config=/etc/urione/config.yaml
 KillMode=process
 KillSignal=SIGTERM
 

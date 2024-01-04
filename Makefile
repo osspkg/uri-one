@@ -30,5 +30,7 @@ pre-commite: setup lint build tests
 ci: install setup lint build tests
 
 run_local:
-	rm -rf config/config.dev.yaml
-	go run cmd/uri-one/main.go --config=config/config.dev.yaml
+	go run cmd/urione/main.go --config=config/config.dev.yaml
+
+deb:
+	deb-builder build

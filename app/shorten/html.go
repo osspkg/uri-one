@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020-2023 Mikhail Knyazhev <markus621@yandex.ru>. All rights reserved.
+ *  Copyright (c) 2020-2024 Mikhail Knyazhev <markus621@yandex.ru>. All rights reserved.
  *  Use of this source code is governed by a GPL-3.0 license that can be found in the LICENSE file.
  */
 
@@ -12,7 +12,7 @@ const page404HTML = `
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>UriOne - 404</title>
+    <title>404</title>
     <style>
         body {
             margin: 30vh auto 0 auto;
@@ -28,7 +28,7 @@ const page404HTML = `
 </head>
 <body>
     <h1 class="number">404</h1>
-    <h1>Link not found</h1>
+    <h1>Not found</h1>
 </body>
 </html>
 `

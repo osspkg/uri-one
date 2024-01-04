@@ -1,0 +1,33 @@
+env: dev
+level: 4
+log: /var/log/urione.log
+
+http:
+    main:
+        addr: 127.0.0.1:8080
+
+mysql:
+    - name: main
+      host: 127.0.0.1
+      port: 3306
+      schema: test_database
+      user: test
+      password: test
+      timezone: UTC
+      charset: utf8mb4
+      collation: utf8mb4_unicode_ci
+      maxidleconn: 5
+      maxopenconn: 5
+      interpolateparams: false
+      maxconnttl: 50s
+      timeout: 5s
+      readtimeout: 5s
+      writetimeout: 5s
+
+mysql_migrate:
+    - pool: main
+      dir: /var/lib/urione/migrations
+
+address: http://localhost:8080
+
+shorten_string: ec9z26f3m5stu71pygw0x8rnkobiqh4djvla
