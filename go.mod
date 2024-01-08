@@ -39,11 +39,11 @@ require (
 	go.osspkg.com/algorithms v1.3.1
 	go.osspkg.com/badges v1.2.0
 	go.osspkg.com/goppy v0.15.13
-	go.osspkg.com/goppy/orm v0.1.6
+	go.osspkg.com/goppy/orm v0.1.7
 	go.osspkg.com/goppy/ormmysql v0.1.8
 	go.osspkg.com/goppy/plugins v0.1.1
 	go.osspkg.com/goppy/web v0.1.9
-	go.osspkg.com/goppy/xlog v0.1.6
+	go.osspkg.com/goppy/xlog v0.1.7
 )
 
 require (
@@ -51,14 +51,14 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	go.osspkg.com/goppy/app v0.1.9 // indirect
 	go.osspkg.com/goppy/console v0.1.0 // indirect
-	go.osspkg.com/goppy/errors v0.1.0 // indirect
-	go.osspkg.com/goppy/iofile v0.1.4 // indirect
-	go.osspkg.com/goppy/iosync v0.1.4 // indirect
+	go.osspkg.com/goppy/errors v0.1.1 // indirect
+	go.osspkg.com/goppy/iofile v0.1.5 // indirect
+	go.osspkg.com/goppy/iosync v0.1.5 // indirect
 	go.osspkg.com/goppy/ioutil v0.1.1 // indirect
 	go.osspkg.com/goppy/routine v0.1.4 // indirect
-	go.osspkg.com/goppy/sqlcommon v0.1.6 // indirect
+	go.osspkg.com/goppy/sqlcommon v0.1.7 // indirect
 	go.osspkg.com/goppy/syscall v0.1.1 // indirect
-	go.osspkg.com/goppy/xc v0.1.0 // indirect
+	go.osspkg.com/goppy/xc v0.1.1 // indirect
 	go.osspkg.com/goppy/xnet v0.1.1 // indirect
 	go.osspkg.com/static v1.4.0 // indirect
 	golang.org/x/image v0.14.0 // indirect
