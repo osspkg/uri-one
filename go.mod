@@ -41,7 +41,7 @@ require (
 	go.osspkg.com/goppy v0.15.13
 	go.osspkg.com/goppy/orm v0.1.6
 	go.osspkg.com/goppy/ormmysql v0.1.8
-	go.osspkg.com/goppy/plugins v0.1.1
+	go.osspkg.com/goppy/plugins v0.3.1
 	go.osspkg.com/goppy/web v0.1.9
 	go.osspkg.com/goppy/xlog v0.1.6
 )
