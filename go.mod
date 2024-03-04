@@ -43,7 +43,7 @@ require (
 	go.osspkg.com/goppy/ormmysql v0.1.8
 	go.osspkg.com/goppy/plugins v0.1.1
 	go.osspkg.com/goppy/web v0.1.9
-	go.osspkg.com/goppy/xlog v0.1.6
+	go.osspkg.com/goppy/xlog v0.3.2
 )
 
 require (
@@ -53,7 +53,7 @@ require (
 	go.osspkg.com/goppy/console v0.1.0 // indirect
 	go.osspkg.com/goppy/errors v0.1.0 // indirect
 	go.osspkg.com/goppy/iofile v0.1.4 // indirect
-	go.osspkg.com/goppy/iosync v0.1.4 // indirect
+	go.osspkg.com/goppy/iosync v0.3.0 // indirect
 	go.osspkg.com/goppy/ioutil v0.1.1 // indirect
 	go.osspkg.com/goppy/routine v0.1.4 // indirect
 	go.osspkg.com/goppy/sqlcommon v0.1.6 // indirect
